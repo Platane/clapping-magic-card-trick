@@ -3,14 +3,14 @@ const path                  = require('path')
 module.exports = {
 
     entry:{
-        'app'           : './src/app.js',
-        'shim'          : './src/shim.js',
-        'index'         : './src/index.html',
+        'index.js'      : './src/index.js',
+        'shim.js'       : './src/shim.js',
+        'index.html'    : './src/index.html',
     },
 
     output: {
         path        : path.join(__dirname, 'dist'),
-        filename    : '[name].js'
+        filename    : '[name]'
     },
 
     module: {
