@@ -4,9 +4,14 @@
 
     "dependencies"      : {},
 
-    "devDependencies"   : {},
+    "devDependencies"   : {
+        "webpack"               : "~2.2.0",
+        "webpack-dev-server"    : "~2.2.0",
+        "file-loader"           : "~0.9.0"
+    },
 
     "scripts"           : {
-        "build"             : "rm -rdf dist/ && mkdir -p dist && cp src/* dist"
+        "build"                 : "rm -rdf dist/ && mkdir -p dist && cp src/* dist",
+        "start"                 : "webpack-dev-server --port 8082 --inline --devtool source-map --content-base ./ -d"
     }
 }
