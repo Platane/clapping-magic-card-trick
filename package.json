@@ -7,11 +7,14 @@
     "devDependencies"   : {
         "webpack"               : "~2.2.0",
         "webpack-dev-server"    : "~2.2.0",
-        "file-loader"           : "~0.9.0"
+        "file-loader"           : "~0.9.0",
+        "babili "               : "~0.0.11",
+        "jscrush"               : "~0.0.0"
     },
 
     "scripts"           : {
-        "build"                 : "rm -rdf dist/ && mkdir -p dist && cp src/* dist",
+        "build2"                 : "babili src/index.js | jscrush",
+        "build"                 : "rm -rdf dist/ && mkdir dist && cp src/* dist && babili src/index.js | jscrush 1> dist/index.js",
         "start"                 : "webpack-dev-server --port 8082 --inline --devtool source-map --content-base ./ -d"
     }
 }
