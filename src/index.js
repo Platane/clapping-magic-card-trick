@@ -1,17 +1,17 @@
-/* global AudioContext, navigator, a,b,c,d,  gain, context, analyser, phase, t, startDate, x */
+/* global AudioContext, navigator, a,b,c,d,  gain, context, analyser, phase, t, startDate, x, cards, mask */
 
 
 const createCard = ( value, icon, color ) => {
     const el = d.createElement('div')
     el.innerHTML = value+' '+icon
 
-    el.setAttribute('style','transform-origin: 50% 360px;transition:transform 300ms ease;padding:10px;background:#fff;position:absolute;top:50%;left:50%;box-shadow:0 0 5px 0 #333;border-radius:10px;width:100px;height:140px;color:'+color)
+    el.setAttribute('style','transform-origin:50% 360px;transition:transform 300ms ease;padding:10px;background:#fff;position:absolute;top:50%;left:calc(50% - 50px);box-shadow:0 0 5px 0 #333;border-radius:10px;width:100px;height:140px;color:'+color)
 
     return el
 }
 
 b.style.backgroundColor='#077915'
-const cards = []
+cards = []
 for (let i=8;i--;) {
     b.appendChild(
         cards[i] = createCard( 1+(i>>2), ['&#9824;','&#9830;','&#9827;','&#9829;'][i%4], i%2 ? 'red' : 'black' )
@@ -53,7 +53,7 @@ navigator.getUserMedia(
 
         const loop = () => {
 
-            t ++
+            t += 0.5
 
             analyser.getByteTimeDomainData(dataArray)
 
@@ -78,7 +78,7 @@ navigator.getUserMedia(
                 gain = Math.max(gain, Math.abs(128-dataArray[i])*3.5)
 
             c.beginPath()
-            c.rect(9,99,300,9)
+            c.rect(9,99,400,9)
             c.stroke()
             c.beginPath()
             c.rect(9,99,8*gain,9)
@@ -112,11 +112,21 @@ navigator.getUserMedia(
                 c.fill()
 
                 if ( (t-startDate) == (phase+1)*100 ) {
-                    x += ( 1<<phase ) * ( gain > 50 )
-                    phase ++
-
                     if ( phase == 3 )
-                        return cards[x].style.transform = 'scale(1.5)'
+                        return cards[x].style.transform = 'scale(2)'
+
+                    x += ( 1<<phase ) * ( gain > 50 )
+
+                    mask = (1<<(phase+1))-1
+
+                    for(let i=8;i--;)
+                        cards[i].style.transform = (x & mask) != (i & mask)
+                            ? 'scale(0.5) translate3d(0,200px,0)'
+                            : ( (1<<(phase+1)) & i )
+                                ?   'translate3d('+(-i*30)+'px,-100px,0)'
+                                :   'translate3d('+(-i*30)+'px,100px,0)'
+
+                    phase ++
                 }
             }
 
@@ -124,7 +134,10 @@ navigator.getUserMedia(
         }
 
 
-        b.onkeyup = () => cards.forEach( c => c.style.transform = 'translate3d(0,200px,0)' )
+        b.onkeyup = () => {
+            for(let i=8;i--;)
+                cards[i].style.transform = 'translate3d(0,200px,0)'
+        }
 
 
         loop()
