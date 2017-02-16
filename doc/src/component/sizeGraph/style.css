@@ -1,0 +1,42 @@
+.container{
+    width: 100%;
+    height: 100%;
+}
+
+.invisible{
+    fill    : transparent;
+}
+
+.dot{
+    fill        : #756947;
+    transition  : fill 400ms ease, transform 400ms ease;
+}
+
+.selectDot{
+    fill        : #d0be21;
+    transform   : scale( 1.2 );
+}
+
+.line,
+.line0,
+.line1k{
+    fill    : none;
+}
+
+.line0,
+.line1k{
+    stroke  : #888;
+    stroke-width: 0.5;
+}
+.line1k{
+    stroke-dasharray: 10, 10;
+}
+.line{
+    stroke  : #756947;
+    stroke-width: 0.5;
+}
+/*
+#9c1818
+#d0be21
+#756947
+*/

@@ -11,7 +11,11 @@ build:
 
         - script:
             name: build
-            code: npm run build
+            code: yarn run build
+
+        - script:
+            name: build history page
+            code: yarn run doc:build
 
 deploy:
     steps:
@@ -38,6 +42,9 @@ deploy:
                 # write the index
                 echo $WERCKER_GIT_COMMIT $(date -u +%s) $(stat -c%s ./$WERCKER_GIT_COMMIT/index.js) $WERCKER_GIT_COMMIT_MESSAGE >> ./index
                 cat index
+
+                # move the doc page
+                mv -f ../doc/dist/* .
 
                 # push the changes
                 git add .
