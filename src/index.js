@@ -1,4 +1,4 @@
-/* global AudioContext, navigator, a,b,c,d */
+/* global AudioContext, navigator, a,b,c,d,  gain, context, analyser, phase, t, startDate, x */
 
 
 const createCard = ( value, icon, color ) => {
@@ -10,38 +10,24 @@ const createCard = ( value, icon, color ) => {
     return el
 }
 
-b.setAttribute('style','background:#077915')
-const cards = [
-    [ '1','&#9824;','black' ],
-    [ '1','&#9830;','red' ],
-    [ '1','&#9827;','black' ],
-    [ '1','&#9829;','red' ],
-
-    [ '2','&#9824;','black' ],
-    [ '2','&#9830;','red' ],
-    [ '2','&#9827;','black' ],
-    [ '2','&#9829;','red' ],
-].map(  (x,i) => {
-
-    const card = createCard(...x)
-    b.appendChild( card )
-
-    card.style.transform = 'translate3d('+((i-4)*0)+'px,0,0) rotate('+((i-3)*10)+'deg)'
-
-    return card
-})
-
-window.addEventListener('click', () => {
-
-    cards.forEach( c => c.style.transform = '' )
+b.style.backgroundColor='#077915'
+const cards = []
+for (let i=8;i--;) {
+    b.appendChild(
+        cards[i] = createCard( 1+(i>>2), ['&#9824;','&#9830;','&#9827;','&#9829;'][i%4], i%2 ? 'red' : 'black' )
+    )
+    cards[i].style.transform = 'translate3d('+((i-4)*0)+'px,0,0) rotate('+((i-3)*-10)+'deg)'
+    cards[i].style.transitionDelay = (i * 100)+'ms'
+}
 
 
-})
+phase = 0
+gain = 0
+t = 0
+x = 0
+startDate = 0
 
-const ctx = window.c
-
-
-let started = false
+const demo = true
 
 navigator.getUserMedia(
     { audio: true },
@@ -50,11 +36,8 @@ navigator.getUserMedia(
         // creates the audio context
         context = new AudioContext()
 
-        const mediaStream = context.createMediaStreamSource( stream )
-        // https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/createScriptProcessor
-
         // const processor = context.createScriptProcessor( 2048, 1, 1 )
-        const analyser = context.createAnalyser()
+        analyser = context.createAnalyser()
         // analyser.smoothingTimeConstant = 1
         // analyser.fftSize = 256
         // analyser.minDecibels = -90
@@ -63,45 +46,88 @@ navigator.getUserMedia(
         const bufferLength = analyser.frequencyBinCount
         const dataArray = new Uint8Array(bufferLength)
 
-        let max = 0
+        context.createMediaStreamSource( stream ).connect(analyser)
+
+
+
 
         const loop = () => {
+
+            t ++
 
             analyser.getByteTimeDomainData(dataArray)
 
 
-            ctx.clearRect(0,0,9999,9999)
+            // ctx.clearRect(0,0,9999,9999)
+            //
+            // ctx.beginPath()
+            // ctx.moveTo(400,400)
+            // for (let i = bufferLength; i--;)
+            //     ctx.lineTo( 400*i/bufferLength, dataArray[i] * 400 / 128 )
+            //
+            // ctx.strokeStyle='#333'
+            // ctx.stroke()
 
-            ctx.beginPath()
-            ctx.moveTo(400,400)
+            c.clearRect(0,0,999,999)
+
+
+
+            gain = gain*0.96
+            // gain = Math.max( 0, gain - 0.5 )
             for (let i = bufferLength; i--;)
-                ctx.lineTo( 400*i/bufferLength, dataArray[i] * 400 / 128 )
+                gain = Math.max(gain, Math.abs(128-dataArray[i])*3.5)
 
-            ctx.strokeStyle='#333'
-            ctx.stroke()
+            c.beginPath()
+            c.rect(9,99,300,9)
+            c.stroke()
+            c.beginPath()
+            c.rect(9,99,8*gain,9)
+            c.fill()
+
+            if ( gain > 50 ){
+                c.beginPath()
+                c.rect(99,199,50,50)
+                c.fill()
+            }
+
+            for ( let i = 3; i--;  ){
+                c.beginPath()
+                c.rect(8+(i+1)*100,30,4, 10 + 20 * (i<phase)  )
+                x&(1<<i) ? c.fill() : c.stroke()
+            }
 
 
+            if ( !startDate ){
+                if ( gain > 50 ) {
+                    startDate = t
+                    phase = 0
+                }
+            } else {
 
-            max = max*0.99
-            for (let i = bufferLength; i--;)
-                max = Math.max( max, Math.abs(128-dataArray[i]) * 20 )
+                c.beginPath()
+                c.rect(9,9,300,9)
+                c.stroke()
+                c.beginPath()
+                c.rect(9,9,(t-startDate),9)
+                c.fill()
 
-            ctx.beginPath()
-            ctx.rect( 20, 0, 10, max)
-            ctx.fill()
+                if ( (t-startDate) == (phase+1)*100 ) {
+                    x += ( 1<<phase ) * ( gain > 50 )
+                    phase ++
 
+                    if ( phase == 3 )
+                        return cards[x].style.transform = 'scale(1.5)'
+                }
+            }
 
             requestAnimationFrame( loop )
         }
 
 
-
-        // we connect the recorder with the input stream
-        mediaStream.connect(analyser)
-
+        b.onkeyup = () => cards.forEach( c => c.style.transform = 'translate3d(0,200px,0)' )
 
 
         loop()
     },
-    err => console.log( err )
+    () => 0
 )

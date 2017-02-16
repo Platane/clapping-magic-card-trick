@@ -1,7 +1,7 @@
 
 const body=document.querySelector('body')
 body.setAttribute('style','margin:0;display:flex;align-items:center;justify-content:center;')
-body.setAttribute('style','margin:0;')
+body.setAttribute('style','margin:0;overflow:hidden')
 
 const MAX_WIDTH  = 800
 const MAX_HEIGHT = 800
