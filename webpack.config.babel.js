@@ -4,8 +4,7 @@ module.exports = {
 
     entry:{
         'index.js'      : './src/index.js',
-        'shim.js'       : './src/shim.js',
-        'index.html'    : './src/index.html',
+        'shim.js'       : [ './src/shim.js', './src/index.html' ],
     },
 
     output: {
