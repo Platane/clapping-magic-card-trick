@@ -15,7 +15,9 @@ build:
 
         - script:
             name: build history page
-            code: yarn run doc:build
+            code: |
+                rm .babelrc
+                yarn run doc:build
 
 deploy:
     steps:
