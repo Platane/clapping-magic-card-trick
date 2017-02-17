@@ -1,22 +1,14 @@
 /* eslint no-undef: "off" */
 
-const createCard = ( value, icon, color ) => {
-    const el = d.createElement('div')
-    el.innerHTML = value+' '+icon
-
-    el.setAttribute('style','transform-origin:50% 360px;transition:transform 600ms;padding:10px;background:#fff;position:absolute;top:50%;left:calc(50% - 50px);box-shadow:0 0 5px 0 #333;border-radius:10px;width:100px;height:140px;color:'+color)
-
-    return el
-}
-
 b.style.backgroundColor='#077915'
 cards = []
 for (i=8;i--;) {
-    b.appendChild(
-        cards[i] = createCard( 1+(i>>2), ['&#9824;','&#9830;','&#9827;','&#9829;'][i%4], i%2 ? 'red' : '#000' )
-    )
-    cards[i].style.transform = 'translate3d('+((i-4)*0)+'px,0,0) rotate('+((i-3)*-10)+'deg)'
-    cards[i].style.transitionDelay = (i * 100)+'ms'
+
+    b.appendChild( cards[i] = d.createElement('div') )
+    cards[i].innerHTML = (1+(i>>2))+' '+['&#9824;','&#9830;','&#9827;','&#9829;'][i%4]
+    cards[i].setAttribute('style','transform-origin:50% 360px;transition:transform 600ms '+(i * 100)+'ms;padding:10px;background:#fff;position:absolute;top:50%;left:calc(50% - 50px);box-shadow:0 0 5px 0 #333;border-radius:10px;width:100px;height:140px;color:'+( i%2 ? 'red' : '#000' ))
+
+    cards[i].style.transform = 'translate('+((i-4)*0)+'px,0) rotate('+((i-3)*-10)+'deg)'
 }
 
 
@@ -27,7 +19,7 @@ startDate = 0
 trainingMode = 0
 cooldown = 0
 
-const THREESHOLD = 0.05
+const THREESHOLD = .05
 
 navigator.getUserMedia(
     { audio: true },
@@ -47,7 +39,7 @@ navigator.getUserMedia(
 
             audioProcessingEvent.inputBuffer.length
 
-            for ( let i=1024; i--; )
+            for ( i=1024; i--; )
                 if( inputData[i] > THREESHOLD )
                     cooldown = t + 26
 
@@ -114,10 +106,10 @@ navigator.getUserMedia(
             if ( _phase != phase && trainingMode )
                 for(i=8;i--;)
                     cards[i].style.transform = (x & ((1<<(phase))-1)) != (i & ((1<<(phase))-1))
-                        ? 'scale(0.5) translate3d(0,200px,0)'
+                        ? 'scale(.5) translate(0,200px)'
                         : ( (1<<(phase)) & i )
-                            ?   'translate3d('+(-i*30)+'px,-100px,0)'
-                            :   'translate3d('+(-i*30)+'px,100px,0)'
+                            ?   'translate('+(-i*30)+'px,-100px)'
+                            :   'translate('+(-i*30)+'px,100px)'
 
 
         }
@@ -126,7 +118,7 @@ navigator.getUserMedia(
         b.onkeyup = e => {
             trainingMode=e.which == 84
             for(i=8;i--;)
-                cards[i].style.transform = 'translate3d(0,200px,0)'
+                cards[i].style.transform = 'translate(0,200px)'
 
             scriptNode.connect( audioContext.destination )
         }
