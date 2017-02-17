@@ -10,3 +10,4 @@ ec2a0371741bd41e4ebbecc2bc8f8cede47c5ffb 1487026251 586 :rocket: crush
 01631b3b41ea9bfee8f074b970a984d58776c2cb 1487284640 1302 :rocket: hint or select
 adddbbc519fe0ea154d3df1c75698dca5a66619e 1487286522 1329 :rocket: training mode
 7de0678017494f68577da8fbe944861a60ce73c1 1487324801 1491 :rocket: debug graph
+4116d3d772b0caba833e12e6714f528ea670e059 1487330948 1395 :rocket: use script node to detect peak
