@@ -11,7 +11,7 @@ const createCard = ( value, icon, color ) => {
 
 b.style.backgroundColor='#077915'
 cards = []
-for (let i=8;i--;) {
+for (i=8;i--;) {
     b.appendChild(
         cards[i] = createCard( 1+(i>>2), ['&#9824;','&#9830;','&#9827;','&#9829;'][i%4], i%2 ? 'red' : '#000' )
     )
@@ -56,8 +56,8 @@ navigator.getUserMedia(
             if ( trainingMode ){
 
                 {
-                    let max = 0
-                    for ( let i=1024; i--; )
+                    max = 0
+                    for ( i=1024; i--; )
                         max = Math.max( max, inputData[i] )
 
                     c.beginPath()
@@ -75,9 +75,9 @@ navigator.getUserMedia(
                     c.fill()
                 }
 
-                for ( let i = 3; i--;  ){
+                for ( i = 3; i--;  ){
                     c.beginPath()
-                    c.rect(8+(i+1)*100,30,4, 10 + 20 * (i<phase)  )
+                    c.rect(8+(i+1)*100,30,4, 10 + 20 * (i< phase)  )
                     x&(1<<i) ? c.fill() : c.stroke()
                 }
 
@@ -104,7 +104,7 @@ navigator.getUserMedia(
 
                 if ( (t-startDate) == (phase+1)*100 ) {
                     if ( phase == 3 )
-                        {return cards[x].style.transform = 'scale(2)'}
+                        return cards[x].style.transform = 'scale(2)'
 
                     x += ( 1<<phase ) * ( cooldown > t )
                     phase ++
@@ -112,12 +112,12 @@ navigator.getUserMedia(
             }
 
             if ( _phase != phase && trainingMode )
-                {for(let i=8;i--;)
-                    {cards[i].style.transform = (x & ((1<<(phase))-1)) != (i & ((1<<(phase))-1))
+                for(i=8;i--;)
+                    cards[i].style.transform = (x & ((1<<(phase))-1)) != (i & ((1<<(phase))-1))
                         ? 'scale(0.5) translate3d(0,200px,0)'
                         : ( (1<<(phase)) & i )
                             ?   'translate3d('+(-i*30)+'px,-100px,0)'
-                            :   'translate3d('+(-i*30)+'px,100px,0)'}}
+                            :   'translate3d('+(-i*30)+'px,100px,0)'
 
 
         }
@@ -125,8 +125,8 @@ navigator.getUserMedia(
 
         b.onkeyup = e => {
             trainingMode=e.which == 84
-            for(let i=8;i--;)
-                {cards[i].style.transform = 'translate3d(0,200px,0)'}
+            for(i=8;i--;)
+                cards[i].style.transform = 'translate3d(0,200px,0)'
 
             scriptNode.connect( audioContext.destination )
         }

@@ -5,17 +5,34 @@
             "keepFnName"    : false,
             "mangle":{
                 "blacklist"     : { "foo": true, "bar": true},
-                "topLevel"      : true,
+                "topLevel"      : true
             },
             "unsafe":{
                 "typeConstructors"  : true,
                 "flipComparisons"   : true,
-                "guards"            : true,
+                "guards"            : true
             },
             "properties":{
                 "memberExpressions" : true,
-                "propertyLiterals"  : true,
+                "propertyLiterals"  : true
+            },
+            "replace":{
+                "replacements": []
             }
+        }]
+    ],
+
+    "plugins": [
+        ["replace-identifiers", {
+            "audioContext"  : "z",
+            "scriptNode"    : "y",
+            "trainingMode"  : "w",
+            "phase"         : "u",
+            "_phase"        : "r",
+            "cards"         : "q",
+            "inputData"     : "v",
+            "max"           : "o",
+            "cooldown"      : "s",
         }]
     ]
 }
