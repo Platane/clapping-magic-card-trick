@@ -1,11 +1,10 @@
-/* global AudioContext, navigator, a,b,c,d,  gain, context, analyser, phase, t, startDate, x, cards, mask, showTimeMode, _phase */
-
+/* eslint no-undef: "off" */
 
 const createCard = ( value, icon, color ) => {
     const el = d.createElement('div')
     el.innerHTML = value+' '+icon
 
-    el.setAttribute('style','transform-origin:50% 360px;transition:transform 400ms;padding:10px;background:#fff;position:absolute;top:50%;left:calc(50% - 50px);box-shadow:0 0 5px 0 #333;border-radius:10px;width:100px;height:140px;color:'+color)
+    el.setAttribute('style','transform-origin:50% 360px;transition:transform 600ms;padding:10px;background:#fff;position:absolute;top:50%;left:calc(50% - 50px);box-shadow:0 0 5px 0 #333;border-radius:10px;width:100px;height:140px;color:'+color)
 
     return el
 }
@@ -22,75 +21,57 @@ for (let i=8;i--;) {
 
 
 phase = -1
-gain = 0
 t = 0
 x = 0
 startDate = 0
-showTimeMode = 0
+trainingMode = 0
+cooldown = 0
+
+const THREESHOLD = 0.05
 
 navigator.getUserMedia(
     { audio: true },
     stream => {
 
-        context = new AudioContext()
+        audioContext = new AudioContext()
 
-        analyser = context.createAnalyser()
+        scriptNode = audioContext.createScriptProcessor(1024, 1, 1)
 
-        const bufferLength = analyser.frequencyBinCount
-        const dataArray = new Uint8Array(bufferLength)
-        context.createMediaStreamSource( stream ).connect(analyser)
+        audioContext.createMediaStreamSource( stream ).connect( scriptNode )
 
+        scriptNode.onaudioprocess = audioProcessingEvent => {
 
+            t++
 
-        const loop = () => {
+            inputData = audioProcessingEvent.inputBuffer.getChannelData(0)
 
-            t += 0.5
+            audioProcessingEvent.inputBuffer.length
 
-            analyser.getByteTimeDomainData(dataArray)
-
+            for ( let i=1024; i--; )
+                if( inputData[i] > THREESHOLD )
+                    cooldown = t + 26
 
             c.clearRect(0,0,999,999)
 
+            if ( trainingMode ){
 
-            {
-                u = window.u || Array.from({length: analyser.frequencyBinCount}, () => 0)
-
-                const dataArray = new Uint8Array(bufferLength)
-                analyser.getByteTimeDomainData(dataArray)
-
-                analyser.getByteTimeDomainData(dataArray)
-
-                u = u.map( (value,i) => Math.max( value*0.98, Math.abs(128-dataArray[i]) ))
-
-                u.forEach( (value,i,arr) => {
+                {
+                    let max = 0
+                    for ( let i=1024; i--; )
+                        max = Math.max( max, inputData[i] )
 
                     c.beginPath()
-                    c.rect(i/arr.length*400,300,400/arr.length, value*100)
-                    c.fill()
+                    c.rect(9,200,300,90)
                     c.stroke()
 
-                })
-            }
-
-
-            gain = gain*0.96
-            // gain = Math.max( 0, gain - 0.5 )
-            for (let i = bufferLength; i--;)
-                gain = Math.max(gain, Math.abs(128-dataArray[i])*3.5)
-
-
-            if ( !showTimeMode ){
-
-                c.beginPath()
-                c.rect(9,99,400,9)
-                c.stroke()
-                c.beginPath()
-                c.rect(9,99,8*gain,9)
-                c.fill()
-
-                if ( gain > 50 ){
                     c.beginPath()
-                    c.rect(99,199,50,50)
+                    c.rect(9,200, max/THREESHOLD*300,90)
+                    c.fill()
+                }
+
+                if ( cooldown > t ){
+                    c.beginPath()
+                    c.rect(99,399,50,50)
                     c.fill()
                 }
 
@@ -110,10 +91,12 @@ navigator.getUserMedia(
                 }
             }
 
+
+
             _phase = phase
 
             if ( !startDate ){
-                if ( gain > 50 ) {
+                if ( cooldown > t ) {
                     startDate = t
                     phase = 0
                 }
@@ -121,33 +104,32 @@ navigator.getUserMedia(
 
                 if ( (t-startDate) == (phase+1)*100 ) {
                     if ( phase == 3 )
-                        return cards[x].style.transform = 'scale(2)'
+                        {return cards[x].style.transform = 'scale(2)'}
 
-                    x += ( 1<<phase ) * ( gain > 50 )
+                    x += ( 1<<phase ) * ( cooldown > t )
                     phase ++
                 }
             }
 
-            if ( _phase != phase && !showTimeMode )
-                for(let i=8;i--;)
-                    cards[i].style.transform = (x & ((1<<(phase))-1)) != (i & ((1<<(phase))-1))
+            if ( _phase != phase && trainingMode )
+                {for(let i=8;i--;)
+                    {cards[i].style.transform = (x & ((1<<(phase))-1)) != (i & ((1<<(phase))-1))
                         ? 'scale(0.5) translate3d(0,200px,0)'
                         : ( (1<<(phase)) & i )
                             ?   'translate3d('+(-i*30)+'px,-100px,0)'
-                            :   'translate3d('+(-i*30)+'px,100px,0)'
+                            :   'translate3d('+(-i*30)+'px,100px,0)'}}
 
-            requestAnimationFrame( loop )
+
         }
 
 
-        b.onkeyup = () => {
-            showTimeMode=true
+        b.onkeyup = e => {
+            trainingMode=e.which == 84
             for(let i=8;i--;)
-                cards[i].style.transform = 'translate3d(0,200px,0)'
+                {cards[i].style.transform = 'translate3d(0,200px,0)'}
+
+            scriptNode.connect( audioContext.destination )
         }
-
-
-        loop()
     },
     function(){}
 )
