@@ -1,0 +1,21 @@
+{
+    "presets": [
+        ["babili",{
+            "keepClassName" : false,
+            "keepFnName"    : false,
+            "mangle":{
+                "blacklist"     : { "foo": true, "bar": true},
+                "topLevel"      : true,
+            },
+            "unsafe":{
+                "typeConstructors"  : true,
+                "flipComparisons"   : true,
+                "guards"            : true,
+            },
+            "properties":{
+                "memberExpressions" : true,
+                "propertyLiterals"  : true,
+            }
+        }]
+    ]
+}

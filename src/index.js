@@ -131,5 +131,5 @@ navigator.getUserMedia(
             scriptNode.connect( audioContext.destination )
         }
     },
-    function(){}
+    ()=>0
 )
