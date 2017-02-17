@@ -6,9 +6,21 @@ for (i=8;i--;) {
 
     b.appendChild( cards[i] = d.createElement('div') )
     cards[i].innerHTML = (1+(i>>2))+' '+['&#9824;','&#9830;','&#9827;','&#9829;'][i%4]
-    cards[i].setAttribute('style','transform-origin:50% 360px;transition:transform 600ms '+(i * 100)+'ms;padding:10px;background:#fff;position:absolute;top:50%;left:calc(50% - 50px);box-shadow:0 0 5px 0 #333;border-radius:10px;width:100px;height:140px;color:'+( i%2 ? 'red' : '#000' ))
-
-    cards[i].style.transform = 'translate('+((i-4)*0)+'px,0) rotate('+((i-3)*-10)+'deg)'
+    cards[i].setAttribute('style',
+        'transform-origin:50% 360px;'
+        +'transition:transform 600ms '+(i * 100)+'ms;'
+        +'padding:10px;'
+        +'background:#fff;'
+        +'position:absolute;'
+        +'top:50%;'
+        +'left:calc(50% - 50px);'
+        +'box-shadow:0 0 5px 0 #333;'
+        +'border-radius:10px;'
+        +'width:100px;'
+        +'height:140px;'
+        +'color:'+( i%2 ? 'red' : '#000')+';'
+        +'translate('+((i-4)*0)+'px,0) rotate('+((i-3)*-10)+'deg)'
+    )
 }
 
 
