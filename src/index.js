@@ -19,7 +19,7 @@ for (i=8;i--;) {
         +'width:100px;'
         +'height:140px;'
         +'color:'+( i%2 ? 'red' : '#000')+';'
-        +'translate('+((i-4)*0)+'px,0) rotate('+((i-3)*-10)+'deg)'
+        +'transform:rotate('+((3-i)*9)+'deg)'
     )
 }
 
