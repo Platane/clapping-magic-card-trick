@@ -14,7 +14,7 @@ b.style.backgroundColor='#077915'
 cards = []
 for (let i=8;i--;) {
     b.appendChild(
-        cards[i] = createCard( 1+(i>>2), ['&#9824;','&#9830;','&#9827;','&#9829;'][i%4], i%2 ? 'red' : 'black' )
+        cards[i] = createCard( 1+(i>>2), ['&#9824;','&#9830;','&#9827;','&#9829;'][i%4], i%2 ? 'red' : '#000' )
     )
     cards[i].style.transform = 'translate3d('+((i-4)*0)+'px,0,0) rotate('+((i-3)*-10)+'deg)'
     cards[i].style.transitionDelay = (i * 100)+'ms'
@@ -38,9 +38,7 @@ navigator.getUserMedia(
 
         const bufferLength = analyser.frequencyBinCount
         const dataArray = new Uint8Array(bufferLength)
-
         context.createMediaStreamSource( stream ).connect(analyser)
-
 
 
 
@@ -51,6 +49,28 @@ navigator.getUserMedia(
             analyser.getByteTimeDomainData(dataArray)
 
 
+            c.clearRect(0,0,999,999)
+
+
+            {
+                u = window.u || Array.from({length: analyser.frequencyBinCount}, () => 0)
+
+                const dataArray = new Uint8Array(bufferLength)
+                analyser.getByteTimeDomainData(dataArray)
+
+                analyser.getByteTimeDomainData(dataArray)
+
+                u = u.map( (value,i) => Math.max( value*0.98, Math.abs(128-dataArray[i]) ))
+
+                u.forEach( (value,i,arr) => {
+
+                    c.beginPath()
+                    c.rect(i/arr.length*400,300,400/arr.length, value*100)
+                    c.fill()
+                    c.stroke()
+
+                })
+            }
 
 
             gain = gain*0.96
@@ -58,7 +78,6 @@ navigator.getUserMedia(
             for (let i = bufferLength; i--;)
                 gain = Math.max(gain, Math.abs(128-dataArray[i])*3.5)
 
-            c.clearRect(0,0,999,999)
 
             if ( !showTimeMode ){
 
@@ -83,7 +102,7 @@ navigator.getUserMedia(
 
                 if ( startDate ) {
                     c.beginPath()
-                    c.rect(9,9,300,9)
+                    c.rect(9,9,400,9)
                     c.stroke()
                     c.beginPath()
                     c.rect(9,9,(t-startDate),9)
@@ -130,5 +149,5 @@ navigator.getUserMedia(
 
         loop()
     },
-    () => 0
+    function(){}
 )
