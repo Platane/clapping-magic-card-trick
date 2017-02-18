@@ -34,8 +34,9 @@ module.exports = {
 
     plugins : [
         new webpack.DefinePlugin({
-            'SCRIPTNODE_BUFFER_SIZE'    : 2048,
-            'MIC_THREESHOLD'            : 0.05,
+            'PHASE_DURATION'            : 20,
+            'SCRIPTNODE_BUFFER_SIZE'    : 4096,
+            'MIC_THREESHOLD'            : 0.01,
         }),
     ]
 }

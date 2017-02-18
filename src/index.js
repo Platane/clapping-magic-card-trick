@@ -1,13 +1,12 @@
 /* eslint no-undef: "off" */
 
 b.style.backgroundColor='#082'
-cards = []
 for (i=8;i--;) {
 
-    b.appendChild( cards[i] = d.createElement('a') )
-    cards[i].innerHTML = (1+(i>>2))+' '+('♠️♦️♣️♥️'[(i%4)*2])
-    cards[i].setAttribute('style',
-        'transform:rotate('+((3-i)*9)+'deg);'
+    b.appendChild( b[i] = d.createElement('a') )
+    b[i].innerHTML = (1+(i>>2))+' '+('♠️♦️♣️♥️'[(i%4)*2])
+    b[i].setAttribute('style',
+        'transform:rotate('+((3-i)*12)+'deg);'
         +'transform-origin:50% 359px;'
         +'transition:transform 600ms '+(i * 99)+'ms;'
         +'padding:10;'
@@ -15,7 +14,7 @@ for (i=8;i--;) {
         +'position:absolute;'
         +'top:60%;'
         +'left:50%;'
-        +'box-shadow:0 0 2px #000;'
+        +'box-shadow:0 0 1px #000;'
         +'border-radius:9px;'
         +'width:60;'
         +'height:99;'
@@ -53,9 +52,11 @@ navigator.getUserMedia(
 
             c.clearRect(0,0,999,999)
 
+            b.style.fontSize= cooldown > t ? 30 : 16
+
             if ( trainingMode ){
 
-                {
+                if(false){
                     max_gain = 0
                     for ( i=SCRIPTNODE_BUFFER_SIZE; i--; )
                         max_gain = Math.max( max_gain, inputData[i] )
@@ -69,11 +70,6 @@ navigator.getUserMedia(
                     c.fill()
                 }
 
-                if ( cooldown > t ){
-                    c.beginPath()
-                    c.rect(99,399,50,50)
-                    c.fill()
-                }
 
                 for ( i = 3; i--;  ){
                     c.beginPath()
@@ -86,25 +82,23 @@ navigator.getUserMedia(
                     c.rect(9,9,400,9)
                     c.stroke()
                     c.beginPath()
-                    c.rect(9,9,(t-startDate),9)
+                    c.rect(9,9,(t-startDate)*100/PHASE_DURATION,9)
                     c.fill()
                 }
             }
 
-
-
             _phase = phase
 
-            if ( !startDate ){
+            if ( t > 30 && !startDate ){
                 if ( cooldown > t ) {
                     startDate = t
                     phase = 0
                 }
             } else {
 
-                if ( (t-startDate) == (phase+1)*100 ) {
+                if ( (t-startDate) == (phase+1)*PHASE_DURATION ) {
                     if ( phase == 3 )
-                        return cards[x].style.transform = 'scale(2)'
+                        return b[x].style.transform = 'scale(2)'
 
                     x += ( 1<<phase ) * ( cooldown > t )
                     phase ++
@@ -113,7 +107,7 @@ navigator.getUserMedia(
 
             if ( _phase != phase && trainingMode )
                 for(i=8;i--;)
-                    cards[i].style.transform = (x & ((1<<phase)-1)) != (i & ((1<<phase)-1))
+                    b[i].style.transform = (x & ((1<<phase)-1)) != (i & ((1<<phase)-1))
                         ? 'scale(.5)translate(0,199px)'
                         : ( (1<<phase) & i )
                             ?   'translate('+(-i*30)+'px,-99px)'
@@ -124,9 +118,15 @@ navigator.getUserMedia(
 
 
         b.onkeyup = e => {
-            trainingMode=e.which == 84
+
+            if( e.which == 84 ) {
+                for (i=8;i--;)
+                    b[i].innerHTML += '<br>'+(i&1 ? 'o' : '.' )+(i&2 ? 'o' : '.' )+(i&4 ? 'o' : '.' )
+                return trainingMode= 1
+            }
+
             for(i=8;i--;)
-                cards[i].style.transform = 'translate(0,199px)'
+                b[i].style.transform = 'translate(0,199px)'
 
             scriptNode.connect( audioContext.destination )
         }

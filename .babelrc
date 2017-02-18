@@ -29,7 +29,14 @@
                         "identifierName": "SCRIPTNODE_BUFFER_SIZE",
                         "replacement": {
                             "type"  : "numericLiteral",
-                            "value" : 2048
+                            "value" : 4096
+                        }
+                    },
+                    {
+                        "identifierName": "PHASE_DURATION",
+                        "replacement": {
+                            "type"  : "numericLiteral",
+                            "value" : 20
                         }
                     }
                 ]
