@@ -35,13 +35,13 @@ module.exports = {
     plugins : [
         new webpack.DefinePlugin({
             // number of card ( better if power of 2 )
-            'N_CARD'                    : 8,
+            'N_CARD'                    : 16,
 
             // 1 << N_CARD_LN = N_CARD
-            'N_CARD_LN'                 : 4,
+            'N_CARD_LN'                 : 5,
 
             // duration between two check ( in update count, which length vary with the script buffer size )
-            'PHASE_DURATION'            : 20,
+            'PHASE_DURATION'            : 15,
 
             // audio script node buffer size, should be large enougth to no update too much per frame
             'SCRIPTNODE_BUFFER_SIZE'    : 4096,

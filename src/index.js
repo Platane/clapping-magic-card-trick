@@ -3,6 +3,11 @@
 // nice green background
 b.style.backgroundColor='#082'
 
+// this element display useful information for the magician
+// it should be "hidden", small enougth to not draw attention of the public
+b.appendChild(label = d.createElement('a'))
+label.setAttribute('style','position:absolute;left:0')
+
 // instanciate the cards
 // notice that the cards are attached to a random object ( the body here ) to save an array instanciation
 for (i=N_CARD;i--;) {
@@ -10,18 +15,18 @@ for (i=N_CARD;i--;) {
     b.appendChild( b[i] = d.createElement('a') )
 
     // the text is the number and the color, as unicode
-    b[i].innerHTML = (1+(i>>2))+' '+('♠️♦️♣️♥️'[(i%4)*2])
+    b[i].innerHTML = (N_CARD/4-(i>>2))+' '+('♠️♦️♣️♥️'[(i%4)*2])
 
     b[i].setAttribute('style',
 
         // position the element origin
         'position:absolute;'
-        +'top:60%;'
-        +'left:50%;'
+        +'left:45%;'
+        +'top:55%;'
 
         // prepare transform animation
-        +'transform-origin:50% 359px;'
-        +'transition:transform 600ms '+(i * 99)+'ms;'
+        +'transform-origin:50% 329px;'
+        +'transition:transform 329ms '+(i * 45)+'ms;'
 
         // position the cards in "eventail" mode
         +'transform:rotate('+((N_CARD/2-i)*9)+'deg);'
@@ -37,9 +42,7 @@ for (i=N_CARD;i--;) {
     )
 }
 
-// this element display useful information for the magician
-// it should be "hidden", small enougth to not draw attention of the public
-b.appendChild(label = d.createElement('a'))
+
 
 // // init some values
 
@@ -77,7 +80,7 @@ navigator.getUserMedia(
 
         scriptNode.onaudioprocess = audioProcessingEvent => {
 
-            if ( t++ < 10 )
+            if ( t++ < 9 )
                 return
 
             inputData = audioProcessingEvent.inputBuffer.getChannelData(0)
@@ -102,7 +105,7 @@ navigator.getUserMedia(
                     label.innerHTML+=x&(1<<i) ? 'o' : '-'
 
                 // display the time remaining before the next tic
-                for(i=0; i< l-((t-startDate)%l)-2; i++)
+                for(i=0; i< l-((t-startDate)%l)-3; i++)
                     label.innerHTML+='.'
 
                 // tic
@@ -120,8 +123,8 @@ navigator.getUserMedia(
             if ( _phase != phase && trainingMode )
                 for(i=N_CARD;i--;)
                     b[i].style.transform = (x & ((1<<phase)-1)) != (i & ((1<<phase)-1))
-                        ? 'scale(.5)translate(0,199px)'
-                        : 'translate('+(-i*30)+'px,'+( (1<<phase) & i ? '-' : '' )+'99px)'
+                        ? 'translate(0,159px)'
+                        : 'translate('+((N_CARD/2-i)*30)+'px,'+( (1<<phase) & i ? -199 : 0 )+'px)'
         }
 
 
@@ -134,7 +137,7 @@ navigator.getUserMedia(
 
             // position the cards in "deck" mode
             for(i=N_CARD;i--;)
-                b[i].style.transform = 'translate(0,199px)'
+                b[i].style.transform = 'translate(0,159px)'
 
             // before the script node is connected to a desitination, it is un-active
             // active it

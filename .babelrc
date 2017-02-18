@@ -36,21 +36,21 @@
                         "identifierName": "N_CARD",
                         "replacement": {
                             "type"  : "numericLiteral",
-                            "value" : 8
+                            "value" : 16
                         }
                     },
                     {
                         "identifierName": "N_CARD_LN",
                         "replacement": {
                             "type"  : "numericLiteral",
-                            "value" : 4
+                            "value" : 5
                         }
                     },
                     {
                         "identifierName": "PHASE_DURATION",
                         "replacement": {
                             "type"  : "numericLiteral",
-                            "value" : 20
+                            "value" : 15
                         }
                     }
                 ]
