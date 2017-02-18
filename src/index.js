@@ -1,46 +1,79 @@
 /* eslint no-undef: "off" */
 
+// nice green background
 b.style.backgroundColor='#082'
-for (i=8;i--;) {
+
+// instanciate the cards
+// notice that the cards are attached to a random object ( the body here ) to save an array instanciation
+for (i=N_CARD;i--;) {
 
     b.appendChild( b[i] = d.createElement('a') )
+
+    // the text is the number and the color, as unicode
     b[i].innerHTML = (1+(i>>2))+' '+('♠️♦️♣️♥️'[(i%4)*2])
+
     b[i].setAttribute('style',
-        'transform:rotate('+((3-i)*12)+'deg);'
-        +'transform-origin:50% 359px;'
-        +'transition:transform 600ms '+(i * 99)+'ms;'
-        +'padding:10;'
-        +'background:#fff;'
-        +'position:absolute;'
+
+        // position the element origin
+        'position:absolute;'
         +'top:60%;'
         +'left:50%;'
+
+        // prepare transform animation
+        +'transform-origin:50% 359px;'
+        +'transition:transform 600ms '+(i * 99)+'ms;'
+
+        // position the cards in "eventail" mode
+        +'transform:rotate('+((N_CARD/2-i)*9)+'deg);'
+
+        // styling
+        +'padding:10;'
+        +'background:#fff;'
         +'box-shadow:0 0 1px #000;'
         +'border-radius:9px;'
-        +'width:60;'
-        +'height:99;'
+        +'width:99;'
+        +'height:160;'
         +'color:'+( i%2 && 'red' )
     )
 }
 
+// this element display useful information for the magician
+// it should be "hidden", small enougth to not draw attention of the public
 b.appendChild(label = d.createElement('a'))
+
+// // init some values
 
 
 phase = -1
-t = 0
-x = 0
-startDate = 0
+
+// the time at which the gain should be considered null
+cooldown =
+
+x =
+
+// time since the keypress, in cycle
+t =
+
+// time at the first clap
+startDate =
+
+// in train mode, position the card to hint the magician
 trainingMode = 0
-cooldown = 0
+
+l=PHASE_DURATION
 
 navigator.getUserMedia(
     { audio: 1 },
     stream => {
+
+        // pipe the microphone input to a script node
 
         audioContext = new AudioContext()
 
         scriptNode = audioContext.createScriptProcessor(SCRIPTNODE_BUFFER_SIZE, 1, 1)
 
         audioContext.createMediaStreamSource( stream ).connect( scriptNode )
+
 
         scriptNode.onaudioprocess = audioProcessingEvent => {
 
@@ -51,9 +84,7 @@ navigator.getUserMedia(
 
             for ( i=SCRIPTNODE_BUFFER_SIZE; i--; )
                 if( inputData[i] > MIC_THREESHOLD )
-                    cooldown = t + 12
-
-            c.clearRect(0,0,999,999)
+                    cooldown = t + 9
 
             label.innerHTML=cooldown > t ? '=' : '_'
 
@@ -66,14 +97,17 @@ navigator.getUserMedia(
                 }
             } else {
 
+                // display the current state
                 for(i=0; i< phase;i++)
                     label.innerHTML+=x&(1<<i) ? 'o' : '-'
 
-                for(i=PHASE_DURATION-((t-startDate)%PHASE_DURATION);i--;)
+                // display the time remaining before the next tic
+                for(i=0; i< l-((t-startDate)%l)-2; i++)
                     label.innerHTML+='.'
 
-                if ( (t-startDate) == (phase+1)*PHASE_DURATION ) {
-                    if ( phase == 3 )
+                // tic
+                if ( (t-startDate) == (phase+1)*l ) {
+                    if ( phase == N_CARD_LN-1 )
                         return b[x].style.transform = 'scale(2)'
 
                     x += ( 1<<phase ) * ( cooldown > t )
@@ -81,8 +115,10 @@ navigator.getUserMedia(
                 }
             }
 
+            // in trainingMode only,
+            // position the card to show which ones will be selected at the next tic
             if ( _phase != phase && trainingMode )
-                for(i=8;i--;)
+                for(i=N_CARD;i--;)
                     b[i].style.transform = (x & ((1<<phase)-1)) != (i & ((1<<phase)-1))
                         ? 'scale(.5)translate(0,199px)'
                         : 'translate('+(-i*30)+'px,'+( (1<<phase) & i ? '-' : '' )+'99px)'
@@ -91,11 +127,17 @@ navigator.getUserMedia(
 
         b.onkeyup = e => {
 
-            trainingMode = e.which == 84
+            // set the training mode flag
+            // also double the phase duration
+            if(e.which == 84)
+                trainingMode = l = l*2
 
-            for(i=8;i--;)
+            // position the cards in "deck" mode
+            for(i=N_CARD;i--;)
                 b[i].style.transform = 'translate(0,199px)'
 
+            // before the script node is connected to a desitination, it is un-active
+            // active it
             scriptNode.connect( audioContext.destination )
         }
     },
