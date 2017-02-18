@@ -1,6 +1,6 @@
 /* eslint no-undef: "off" */
 
-b.style.backgroundColor='#077915'
+b.style.backgroundColor='#082'
 cards = []
 for (i=8;i--;) {
 
