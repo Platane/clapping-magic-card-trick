@@ -4,7 +4,7 @@ b.style.backgroundColor='#077915'
 cards = []
 for (i=8;i--;) {
 
-    b.appendChild( cards[i] = d.createElement('div') )
+    b.appendChild( cards[i] = d.createElement('a') )
     cards[i].innerHTML = (1+(i>>2))+' '+('♠️♦️♣️♥️'[(i%4)*2])
     cards[i].setAttribute('style',
         'transform:rotate('+((3-i)*9)+'deg);'
