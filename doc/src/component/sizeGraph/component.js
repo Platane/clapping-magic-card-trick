@@ -43,9 +43,9 @@ export const SizeGraph = precompute(
                 .map( ({ id, message, commit, size, date }) =>
                     <g key={id} transform={`translate(${ ( date - minX )/( maxX - minX )*width },${ (1-size/maxY)*height })`}>
 
-                        <circle className={merge(style.dot, selectedVersionId==id && style.selectDot)} r={3} cx={0} cy={0} />
+                        <circle className={merge(style.dot, selectedVersionId==id && style.selectDot)} r={1.5} cx={0} cy={0} />
 
-                        <circle className={style.invisible} r={10} cx={0} cy={0} onClick={selectVersion.bind(null, id)} />
+                        <circle className={style.invisible} r={2} cx={0} cy={0} onClick={selectVersion.bind(null, id)} />
                     </g>
                 )
             }

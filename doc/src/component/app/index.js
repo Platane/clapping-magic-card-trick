@@ -1,5 +1,6 @@
 import React                    from 'react'
 import {SizeGraph}              from '../sizeGraph'
+import {VersionList}            from '../list'
 import {Embed as Embed_iframe}  from '../embed.iframe'
 import {Embed as Embed_eval}    from '../embed.eval'
 
@@ -14,11 +15,16 @@ export const App = () =>
             <Embed />
         </div>
 
-        <div className={style.sizeGraph}>
+        <div className={style.footer}>
+            <div className={style.footerShadow} />
 
-            <div className={style.sizeGraphShadow} />
+            <div className={style.sizeGraph}>
+                <SizeGraph width={400} height={80}/>
+            </div>
 
-            <SizeGraph width={400} height={80}/>
+            <div className={style.versionList}>
+                <VersionList/>
+            </div>
 
         </div>
 

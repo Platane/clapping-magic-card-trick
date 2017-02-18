@@ -11,6 +11,8 @@ http
 
         const pathname = url.parse(req.url).pathname
 
+        console.log( pathname, '->', SOURCE_URL+pathname )
+
         const proxy = followRedirect.https.request( SOURCE_URL+pathname , proxy_res => proxy_res.pipe(res, {end: true}) )
 
         res.setHeader('Access-Control-Allow-Origin', '*')

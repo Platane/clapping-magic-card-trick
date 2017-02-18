@@ -38,7 +38,7 @@
     },
 
     "scripts"           : {
-        "build"                 : "rm -rdf dist/ && mkdir dist && cp src/* dist && babel src/index.js | node ./replaceEmoji.js | jscrush 1> dist/index.js",
+        "build"                 : "rm -rdf dist/ && mkdir dist && cp src/* dist && env BABEL_ENV=minify babel src/index.js | node ./replaceEmoji.js | jscrush 1> dist/index.js && stat -c%s dist/index.js",
         "start"                 : "webpack-dev-server --port 8082 --inline --devtool source-map --content-base ./ -d",
         "doc:start"             : "env SOURCE_URL=\"http://localhost:8083\" webpack-dev-server --port 8084 --inline --devtool source-map --content-base ./ -d --config ./doc/webpack.config.babel.js",
         "doc:build"             : "rm -rdf doc/dist/ && env NODE_ENV=production webpack --config ./doc/webpack.config.babel.js"
