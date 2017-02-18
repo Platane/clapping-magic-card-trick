@@ -5,8 +5,7 @@ cards = []
 for (i=8;i--;) {
 
     b.appendChild( cards[i] = d.createElement('div') )
-    cards[i].innerHTML = (1+(i>>2))+' '+['@','*','&','^'][i%4]
-    // cards[i].innerHTML = (1+(i>>2))+' '+['&#9824;','&#9830;','&#9827;','&#9829;'][i%4]
+    cards[i].innerHTML = (1+(i>>2))+' '+('♠️♦️♣️♥️'[(i%4)*2])
     cards[i].setAttribute('style',
         'transform:rotate('+((3-i)*9)+'deg);'
         +'transform-origin:50% 359px;'
@@ -20,7 +19,7 @@ for (i=8;i--;) {
         +'border-radius:9px;'
         +'width:60;'
         +'height:99;'
-        +'color:'+( i%2 ? 'red' : 0 )
+        +'color:'+( i%2 && 'red' )
     )
 }
 
