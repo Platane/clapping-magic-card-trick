@@ -5,21 +5,22 @@ cards = []
 for (i=8;i--;) {
 
     b.appendChild( cards[i] = d.createElement('div') )
-    cards[i].innerHTML = (1+(i>>2))+' '+['&#9824;','&#9830;','&#9827;','&#9829;'][i%4]
+    cards[i].innerHTML = (1+(i>>2))+' '+['@','*','&','^'][i%4]
+    // cards[i].innerHTML = (1+(i>>2))+' '+['&#9824;','&#9830;','&#9827;','&#9829;'][i%4]
     cards[i].setAttribute('style',
-        'transform-origin:50% 360px;'
-        +'transition:transform 600ms '+(i * 100)+'ms;'
+        'transform:rotate('+((3-i)*9)+'deg);'
+        +'transform-origin:50% 359px;'
+        +'transition:transform 600ms '+(i * 99)+'ms;'
         +'padding:10;'
         +'background:#fff;'
         +'position:absolute;'
         +'top:60%;'
-        +'left:calc(50% - 50px);'
-        +'box-shadow:0 0 5px 0 #333;'
+        +'left:50%;'
+        +'box-shadow:0 0 2px #000;'
         +'border-radius:9px;'
-        +'width:99;'
-        +'height:140;'
-        +'color:'+( i%2 ? 'red' : '#000')+';'
-        +'transform:rotate('+((3-i)*9)+'deg)'
+        +'width:60;'
+        +'height:99;'
+        +'color:'+( i%2 ? 'red' : 0 )
     )
 }
 
@@ -32,7 +33,7 @@ trainingMode = 0
 cooldown = 0
 
 navigator.getUserMedia(
-    { audio: true },
+    { audio: 1 },
     stream => {
 
         audioContext = new AudioContext()
@@ -47,11 +48,9 @@ navigator.getUserMedia(
 
             inputData = audioProcessingEvent.inputBuffer.getChannelData(0)
 
-            audioProcessingEvent.inputBuffer.length
-
             for ( i=SCRIPTNODE_BUFFER_SIZE; i--; )
                 if( inputData[i] > MIC_THREESHOLD )
-                    cooldown = t + 26
+                    cooldown = t + 12
 
             c.clearRect(0,0,999,999)
 
@@ -63,11 +62,11 @@ navigator.getUserMedia(
                         max_gain = Math.max( max_gain, inputData[i] )
 
                     c.beginPath()
-                    c.rect(9,200,300,90)
+                    c.rect(9,199,299,90)
                     c.stroke()
 
                     c.beginPath()
-                    c.rect(9,200, max_gain/MIC_THREESHOLD*300,90)
+                    c.rect(9,199, max_gain/MIC_THREESHOLD*299,90)
                     c.fill()
                 }
 
@@ -115,11 +114,11 @@ navigator.getUserMedia(
 
             if ( _phase != phase && trainingMode )
                 for(i=8;i--;)
-                    cards[i].style.transform = (x & ((1<<(phase))-1)) != (i & ((1<<(phase))-1))
-                        ? 'scale(.5)translate(0,200px)'
-                        : ( (1<<(phase)) & i )
-                            ?   'translate('+(-i*30)+'px,-100px)'
-                            :   'translate('+(-i*30)+'px,100px)'
+                    cards[i].style.transform = (x & ((1<<phase)-1)) != (i & ((1<<phase)-1))
+                        ? 'scale(.5)translate(0,199px)'
+                        : ( (1<<phase) & i )
+                            ?   'translate('+(-i*30)+'px,-99px)'
+                            :   'translate('+(-i*30)+'px,99px)'
 
 
         }
@@ -128,7 +127,7 @@ navigator.getUserMedia(
         b.onkeyup = e => {
             trainingMode=e.which == 84
             for(i=8;i--;)
-                cards[i].style.transform = 'translate(0,200px)'
+                cards[i].style.transform = 'translate(0,199px)'
 
             scriptNode.connect( audioContext.destination )
         }
