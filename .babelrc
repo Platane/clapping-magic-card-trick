@@ -52,7 +52,7 @@
             "trainingMode"  : "w",
             "phase"         : "u",
             "_phase"        : "r",
-            "cards"         : "$",
+            "label"         : "$",
             "startDate"     : "_",
             "inputData"     : "v",
             "max_gain"      : "o",
