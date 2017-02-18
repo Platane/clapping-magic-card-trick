@@ -12,7 +12,7 @@ for (i=8;i--;) {
         +'padding:10;'
         +'background:#fff;'
         +'position:absolute;'
-        +'top:50%;'
+        +'top:60%;'
         +'left:calc(50% - 50px);'
         +'box-shadow:0 0 5px 0 #333;'
         +'border-radius:9px;'
@@ -31,15 +31,13 @@ startDate = 0
 trainingMode = 0
 cooldown = 0
 
-const THREESHOLD = .05
-
 navigator.getUserMedia(
     { audio: true },
     stream => {
 
         audioContext = new AudioContext()
 
-        scriptNode = audioContext.createScriptProcessor(1024, 1, 1)
+        scriptNode = audioContext.createScriptProcessor(SCRIPTNODE_BUFFER_SIZE, 1, 1)
 
         audioContext.createMediaStreamSource( stream ).connect( scriptNode )
 
@@ -51,8 +49,8 @@ navigator.getUserMedia(
 
             audioProcessingEvent.inputBuffer.length
 
-            for ( i=1024; i--; )
-                if( inputData[i] > THREESHOLD )
+            for ( i=SCRIPTNODE_BUFFER_SIZE; i--; )
+                if( inputData[i] > MIC_THREESHOLD )
                     cooldown = t + 26
 
             c.clearRect(0,0,999,999)
@@ -60,16 +58,16 @@ navigator.getUserMedia(
             if ( trainingMode ){
 
                 {
-                    max = 0
-                    for ( i=1024; i--; )
-                        max = Math.max( max, inputData[i] )
+                    max_gain = 0
+                    for ( i=SCRIPTNODE_BUFFER_SIZE; i--; )
+                        max_gain = Math.max( max_gain, inputData[i] )
 
                     c.beginPath()
                     c.rect(9,200,300,90)
                     c.stroke()
 
                     c.beginPath()
-                    c.rect(9,200, max/THREESHOLD*300,90)
+                    c.rect(9,200, max_gain/MIC_THREESHOLD*300,90)
                     c.fill()
                 }
 
@@ -118,7 +116,7 @@ navigator.getUserMedia(
             if ( _phase != phase && trainingMode )
                 for(i=8;i--;)
                     cards[i].style.transform = (x & ((1<<(phase))-1)) != (i & ((1<<(phase))-1))
-                        ? 'scale(.5) translate(0,200px)'
+                        ? 'scale(.5)translate(0,200px)'
                         : ( (1<<(phase)) & i )
                             ?   'translate('+(-i*30)+'px,-100px)'
                             :   'translate('+(-i*30)+'px,100px)'

@@ -17,8 +17,24 @@
                 "propertyLiterals"  : true
             },
             "replace":{
-                "replacements": []
-            }
+                "replacements": [
+                    {
+                        "identifierName": "MIC_THREESHOLD",
+                        "replacement": {
+                            "type"  : "numericLiteral",
+                            "value" : 0.05
+                        }
+                    },
+                    {
+                        "identifierName": "SCRIPTNODE_BUFFER_SIZE",
+                        "replacement": {
+                            "type"  : "numericLiteral",
+                            "value" : 2048
+                        }
+                    }
+                ]
+            },
+            "builtins": false
         }]
     ],
 
@@ -32,7 +48,7 @@
             "cards"         : "$",
             "startDate"     : "_",
             "inputData"     : "v",
-            "max"           : "o",
+            "max_gain"      : "o",
             "cooldown"      : "s",
         }]
     ]
