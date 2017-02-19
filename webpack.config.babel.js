@@ -47,7 +47,7 @@ module.exports = {
             'SCRIPTNODE_BUFFER_SIZE'    : 4096,
 
             // microphone treeshold
-            'MIC_THREESHOLD'            : 0.01,
+            'MIC_THREESHOLD'            : 0.1,
         }),
     ]
 }
