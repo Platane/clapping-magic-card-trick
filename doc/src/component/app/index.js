@@ -1,6 +1,7 @@
 import React                    from 'react'
 import {SizeGraph}              from '../sizeGraph'
 import {VersionList}            from '../list'
+import {VersionInfo}            from '../versionInfo'
 import {Embed as Embed_iframe}  from '../embed.iframe'
 import {Embed as Embed_eval}    from '../embed.eval'
 
@@ -12,6 +13,9 @@ export const App = () =>
     <div className={style.container}>
 
         <div className={style.embed}>
+            <div className={style.versionInfo}>
+                <VersionInfo />
+            </div>
             <Embed />
         </div>
 

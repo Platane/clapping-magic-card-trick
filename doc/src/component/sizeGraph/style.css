@@ -10,6 +10,7 @@
 .dot{
     fill        : #756947;
     transition  : fill 400ms ease, transform 400ms ease;
+    cursor      : pointer;
 }
 
 .selectDot{

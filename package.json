@@ -6,6 +6,7 @@
         "refinery-js"           : "~0.6.0",
         "redux"                 : "~3.6.0",
         "react-redux"           : "~5.0.2",
+        "react-motion"          : "~0.4.7",
         "react"                 : "~15.4.0",
         "js-emoji-fork"         : "~1.0.0",
         "react-dom"             : "~15.4.0"
