@@ -101,7 +101,7 @@ navigator.getUserMedia(
 
                     // display the current state
                     for(i=0; i< phase;i++)
-                        label.innerHTML+=x&(1<<i) ? 'o' : '-'
+                        label.innerHTML+=x&(1<<i) ? '-' : 'o'
 
                     // display the time remaining before the next tic
                     for(i=0; i< l-((t-startDate)%l)-3; i++)
@@ -112,7 +112,7 @@ navigator.getUserMedia(
                         if ( phase == N_CARD_LN-1 )
                             return b[x].style.transform = 'scale(1.5)'
 
-                        x += ( 1<<phase ) * ( cooldown > t )
+                        x += ( 1<<phase ) * ( cooldown < t )
 
                         // increment the phase
                         // reset the cooldown ( prevent to write cooldown = 0, to save a char )
@@ -126,7 +126,7 @@ navigator.getUserMedia(
                     for(i=N_CARD;i--;)
                         b[i].style.transform = (x & ((1<<phase)-1)) != (i & ((1<<phase)-1))
                             ? 'translate(0,159px)'
-                            : 'translate('+((N_CARD/2-i)*30)+'px,'+( (1<<phase) & i ? -199 : 0 )+'px)'
+                            : 'translate('+((N_CARD/2-i)*30)+'px,'+( (1<<phase) & i ? 0 : -199 )+'px)'
             }
         }
 
