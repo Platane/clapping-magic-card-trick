@@ -80,54 +80,54 @@ navigator.getUserMedia(
 
         scriptNode.onaudioprocess = audioProcessingEvent => {
 
-            if ( t++ < 9 )
-                return
+            if ( t++ > 9 ){
 
-            inputData = audioProcessingEvent.inputBuffer.getChannelData(0)
+                inputData = audioProcessingEvent.inputBuffer.getChannelData(0)
 
-            for ( i=SCRIPTNODE_BUFFER_SIZE; i--; )
-                if( inputData[i] > MIC_THREESHOLD )
-                    cooldown = t + 9
+                for ( i=SCRIPTNODE_BUFFER_SIZE; i--; )
+                    if( inputData[i] > MIC_THREESHOLD )
+                        cooldown = t + 9
 
-            label.innerHTML=cooldown > t ? '=' : '_'
+                label.innerHTML=cooldown > t ? '=' : '_'
 
-            _phase = phase
+                _phase = phase
 
-            if( !startDate ){
-                if ( cooldown > t ) {
-                    startDate = t
-                    phase = 0
+                if( !startDate ){
+                    if ( cooldown > t ) {
+                        startDate = t
+                        phase = 0
+                    }
+                } else {
+
+                    // display the current state
+                    for(i=0; i< phase;i++)
+                        label.innerHTML+=x&(1<<i) ? 'o' : '-'
+
+                    // display the time remaining before the next tic
+                    for(i=0; i< l-((t-startDate)%l)-3; i++)
+                        label.innerHTML+='.'
+
+                    // tic
+                    if ( (t-startDate) == (phase+1)*l ) {
+                        if ( phase == N_CARD_LN-1 )
+                            return b[x].style.transform = 'scale(1.5)'
+
+                        x += ( 1<<phase ) * ( cooldown > t )
+
+                        // increment the phase
+                        // reset the cooldown ( prevent to write cooldown = 0, to save a char )
+                        cooldown = phase ++
+                    }
                 }
-            } else {
 
-                // display the current state
-                for(i=0; i< phase;i++)
-                    label.innerHTML+=x&(1<<i) ? 'o' : '-'
-
-                // display the time remaining before the next tic
-                for(i=0; i< l-((t-startDate)%l)-3; i++)
-                    label.innerHTML+='.'
-
-                // tic
-                if ( (t-startDate) == (phase+1)*l ) {
-                    if ( phase == N_CARD_LN-1 )
-                        b[x].style.transform = 'scale(1.5)'
-
-                    x += ( 1<<phase ) * ( cooldown > t )
-
-                    // increment the phase
-                    // reset the cooldown ( prevent to write cooldown = 0, to save a char )
-                    cooldown = phase ++
-                }
+                // in trainingMode only,
+                // position the card to show which ones will be selected at the next tic
+                if ( _phase != phase && trainingMode )
+                    for(i=N_CARD;i--;)
+                        b[i].style.transform = (x & ((1<<phase)-1)) != (i & ((1<<phase)-1))
+                            ? 'translate(0,159px)'
+                            : 'translate('+((N_CARD/2-i)*30)+'px,'+( (1<<phase) & i ? -199 : 0 )+'px)'
             }
-
-            // in trainingMode only,
-            // position the card to show which ones will be selected at the next tic
-            if ( _phase != phase && trainingMode )
-                for(i=N_CARD;i--;)
-                    b[i].style.transform = (x & ((1<<phase)-1)) != (i & ((1<<phase)-1))
-                        ? 'translate(0,159px)'
-                        : 'translate('+((N_CARD/2-i)*30)+'px,'+( (1<<phase) & i ? -199 : 0 )+'px)'
         }
 
 
