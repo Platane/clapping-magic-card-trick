@@ -111,10 +111,13 @@ navigator.getUserMedia(
                 // tic
                 if ( (t-startDate) == (phase+1)*l ) {
                     if ( phase == N_CARD_LN-1 )
-                        return b[x].style.transform = 'scale(2)'
+                        b[x].style.transform = 'scale(1.5)'
 
                     x += ( 1<<phase ) * ( cooldown > t )
-                    phase ++
+
+                    // increment the phase
+                    // reset the cooldown ( prevent to write cooldown = 0, to save a char )
+                    cooldown = phase ++
                 }
             }
 
@@ -128,11 +131,11 @@ navigator.getUserMedia(
         }
 
 
-        b.onkeyup = e => {
+        b.onclick = e => {
 
             // set the training mode flag
             // also double the phase duration
-            if(e.which == 84)
+            if(e.target != b)
                 trainingMode = l = l*2
 
             // position the cards in "deck" mode
