@@ -1,9 +1,9 @@
-pick a card
+Clapping magic card trick
 ====
 
 An stunning magic card trick. Use the microphone to communicate to your computer the picked card.
 
-[![wercker status](https://app.wercker.com/status/f21ee725f958495748dc0f2b34140572/s/master "wercker status")](https://app.wercker.com/project/byKey/f21ee725f958495748dc0f2b34140572)
+[![wercker status](https://app.wercker.com/status/82a68d6dd44b716bd6392d5f482bad98/s/master "wercker status")](https://app.wercker.com/project/byKey/82a68d6dd44b716bd6392d5f482bad98)
 
 [play](https://platane.github.io/clapping-magic-card-trick/latest/index.html)
 
