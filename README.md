@@ -5,9 +5,9 @@ An stunning magic card trick. Use the microphone to communicate to your computer
 
 [![wercker status](https://app.wercker.com/status/f21ee725f958495748dc0f2b34140572/s/master "wercker status")](https://app.wercker.com/project/byKey/f21ee725f958495748dc0f2b34140572)
 
-[play](https://platane.github.io/js1k-2017/8185a4e7587a52c6f5a8c52860db6e5df972ef86/index.html)
+[play](https://platane.github.io/clapping-magic-card-trick/latest/index.html)
 
-[version history](https://platane.github.io/js1k-2017/)
+[version history](https://platane.github.io/clapping-magic-card-trick)
 
 # Usage
 

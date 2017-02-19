@@ -47,7 +47,7 @@ let store
 
 
 // const SOURCE_URL = 'http://localhost:8083'
-const SOURCE_URL = process.env.SOURCE_URL == '/' ? '' : process.env.SOURCE_URL || 'https://platane.github.io/js1k-2017'
+const SOURCE_URL = process.env.SOURCE_URL == '/' ? '' : process.env.SOURCE_URL || 'https://platane.github.io/clapping-magic-card-trick'
 
 fetch(SOURCE_URL+'/index')
     .then( res => res.text() )
@@ -65,7 +65,7 @@ fetch(SOURCE_URL+'/index')
                 message             : message.join(' '),
                 url                 : SOURCE_URL+'/'+commit+'/index.html',
                 url_indexJs         : SOURCE_URL+'/'+commit+'/index.js',
-                url_indexJs_commit  : 'https://github.com/Platane/js1k-2017/blob/'+commit+'/src/index.js',
+                url_indexJs_commit  : 'https://github.com/Platane/clapping-magic-card-trick/blob/'+commit+'/src/index.js',
             }
         })
         .sort( (a,b) => a.date > b.date ? 1 : -1 )

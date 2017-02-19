@@ -3,7 +3,7 @@ const followRedirect = require('follow-redirects')
 const http = require( 'http' )
 const url = require( 'url' )
 
-const SOURCE_URL = process.env.SOURCE_URL || 'https://platane.github.io/js1k-2017'
+const SOURCE_URL = process.env.SOURCE_URL || 'https://platane.github.io/clapping-magic-card-trick'
 const PORT = 8083
 
 http

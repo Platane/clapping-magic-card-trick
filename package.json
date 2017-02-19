@@ -1,6 +1,6 @@
 {
-    "name"              : "js1k-2017",
-    "version"           : "0.1.0",
+    "name"              : "clapping-magic-card-trick",
+    "version"           : "1.0.0",
 
     "dependencies"      : {
         "refinery-js"           : "~0.6.0",

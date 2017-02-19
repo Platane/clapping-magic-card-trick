@@ -39,7 +39,11 @@ deploy:
 
                 # copy the built files
                 mkdir $WERCKER_GIT_COMMIT
-                mv ../dist/* $WERCKER_GIT_COMMIT
+                cp ../dist/* $WERCKER_GIT_COMMIT
+
+                # copy the built files
+                mkdir -p latest
+                cp -f ../dist/* latest
 
                 # write the index
                 echo $WERCKER_GIT_COMMIT $(date -u +%s) $(stat -c%s ./$WERCKER_GIT_COMMIT/index.js) $WERCKER_GIT_COMMIT_MESSAGE >> ./index
