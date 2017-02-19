@@ -8,7 +8,7 @@ const merge = ( ...args ) =>
 
 const precompute = next => props => {
 
-    const {history} = props
+    const {history, selectedVersionId} = props
 
     const maxY = history.reduce( (max,o) => Math.max( max, o.size ), 1024 )
     const minX = history.length > 0 ? history[0].date : 0
@@ -16,12 +16,12 @@ const precompute = next => props => {
 
     maxX += ( maxX - minX ) * 0.05
 
-    return next({ ...props, maxY, minX, maxX })
+    return next({ ...props, maxY, minX, maxX, selected: history.find( ({id}) => id == selectedVersionId ) })
 }
 
 const margin = 10
 export const SizeGraph = precompute(
-    ({ selectedVersionId, selectVersion, history, maxY, minX, maxX, width, height }) =>
+    ({ selected, selectVersion, history, maxY, minX, maxX, width, height }) =>
         <svg className={style.container} viewBox={`${-margin} ${-margin} ${width+margin*2} ${height+margin*2}`} >
 
             <path className={style.line1k} d={`M0 ${(1-1024/maxY)*height}L${width} ${(1-1024/maxY)*height}`} />
@@ -43,11 +43,17 @@ export const SizeGraph = precompute(
                 .map( ({ id, message, commit, size, date }) =>
                     <g key={id} transform={`translate(${ ( date - minX )/( maxX - minX )*width },${ (1-size/maxY)*height })`}>
 
-                        <circle className={merge(style.dot, selectedVersionId==id && style.selectDot)} r={1.5} cx={0} cy={0} />
+                        <circle className={merge(style.dot, selected.id==id && style.selectDot)} r={1.3} cx={0} cy={0} />
 
-                        <circle className={style.invisible} r={2} cx={0} cy={0} onClick={selectVersion.bind(null, id)} />
+                        <circle className={style.invisible} r={2.2} cx={0} cy={0} onClick={selectVersion.bind(null, id)} />
                     </g>
                 )
+            }
+
+            { selected &&
+                <g transform={`translate(${ ( selected.date - minX )/( maxX - minX )*width },${ (1-selected.size/maxY)*height })`}>
+                    <circle className={merge(style.dot,style.selectDot)} r={1.3} cx={0} cy={0} />
+                </g>
             }
         </svg>
 )

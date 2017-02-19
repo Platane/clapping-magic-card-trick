@@ -18,12 +18,12 @@ export const App = () =>
         <div className={style.footer}>
             <div className={style.footerShadow} />
 
-            <div className={style.sizeGraph}>
-                <SizeGraph width={400} height={80}/>
-            </div>
-
             <div className={style.versionList}>
                 <VersionList/>
+            </div>
+
+            <div className={style.sizeGraph}>
+                <SizeGraph width={400} height={80}/>
             </div>
 
         </div>

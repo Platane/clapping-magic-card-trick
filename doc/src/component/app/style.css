@@ -5,12 +5,24 @@
 
     background-color: #eee;
 }
+.embed{
+    flex-basis      : 200px;
+    max-height      : 700px;
+    flex-grow       : 1;
+    position        : relative;
+
+    background-color: #fff;
+}
+
 .footer{
     margin-top      : auto;
     flex-basis      : 200px;
     max-height      : 200px;
     position        : relative;
     padding         : 20px;
+
+    display         : flex;
+    flex-direction  : row;
 }
 .footerShadow{
     position        : absolute;
@@ -20,11 +32,12 @@
     height          : 10px;
     background-image: linear-gradient( 180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 100% );
 }
-.embed{
-    flex-basis      : 200px;
-    max-height      : 700px;
-    flex-grow       : 1;
+.sizeGraph{
     position        : relative;
-
-    background-color: #fff;
+    flex-basis      : 100px;
+    flex-grow       : 1;
+}
+.versionList{
+    position        : relative;
+    flex-basis      : 200px;
 }

@@ -1,0 +1,39 @@
+.item{
+    font-family     : helvetica;
+    font-size       : 12px;
+    transition      : color 200ms ease;
+    cursor          : pointer;
+
+    display         : flex;
+    flex-direction  : row;
+}
+.itemSelected{
+    color           : #d0be21;
+}
+.date{
+    white-space     : nowrap;
+    display         : flex;
+    flex-direction  : row;
+    align-items     : baseline;
+
+    margin-right    : 10px;
+}
+.day{
+}
+.time{
+    font-size       : 0.9em;
+    margin-left     : 5px;
+}
+
+.message{
+    opacity         : 0;
+    transition      : opacity 200ms ease;
+    color           : #888;
+    font-size       : 0.9em;
+    overflow        : hidden;
+    white-space     : nowrap;
+    text-overflow   : ellipsis;
+}
+.itemSelected .message{
+    opacity         : 1;
+}

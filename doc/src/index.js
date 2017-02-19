@@ -46,8 +46,8 @@ let store
 }
 
 
-const SOURCE_URL = 'http://localhost:8083'
-// const SOURCE_URL = process.env.SOURCE_URL == '/' ? '' : process.env.SOURCE_URL || 'https://platane.github.io/js1k-2017'
+// const SOURCE_URL = 'http://localhost:8083'
+const SOURCE_URL = process.env.SOURCE_URL == '/' ? '' : process.env.SOURCE_URL || 'https://platane.github.io/js1k-2017'
 
 fetch(SOURCE_URL+'/index')
     .then( res => res.text() )
@@ -60,7 +60,7 @@ fetch(SOURCE_URL+'/index')
             return {
                 id                  :commit,
                 commit,
-                date                : +date,
+                date                : 1000*(+date),
                 size                : +size,
                 message             : message.join(' '),
                 url                 : SOURCE_URL+'/'+commit+'/index.html',
