@@ -2,6 +2,66 @@
     "env" : {
         "minify" : {
 
+            "presets": [
+                ["babili",{
+                    "keepClassName" : false,
+                    "keepFnName"    : false,
+                    "mangle":{
+                        "blacklist"     : { "foo": true, "bar": true},
+                        "topLevel"      : true
+                    },
+                    "unsafe":{
+                        "typeConstructors"  : true,
+                        "flipComparisons"   : true,
+                        "guards"            : true
+                    },
+                    "properties":{
+                        "memberExpressions" : true,
+                        "propertyLiterals"  : true
+                    },
+                    "replace":{
+                        "replacements": [
+                            {
+                                "identifierName": "MIC_THREESHOLD",
+                                "replacement": {
+                                    "type"  : "numericLiteral",
+                                    "value" : 0.05
+                                }
+                            },
+                            {
+                                "identifierName": "SCRIPTNODE_BUFFER_SIZE",
+                                "replacement": {
+                                    "type"  : "numericLiteral",
+                                    "value" : 4096
+                                }
+                            },
+                            {
+                                "identifierName": "N_CARD",
+                                "replacement": {
+                                    "type"  : "numericLiteral",
+                                    "value" : 16
+                                }
+                            },
+                            {
+                                "identifierName": "N_CARD_LN",
+                                "replacement": {
+                                    "type"  : "numericLiteral",
+                                    "value" : 5
+                                }
+                            },
+                            {
+                                "identifierName": "PHASE_DURATION",
+                                "replacement": {
+                                    "type"  : "numericLiteral",
+                                    "value" : 15
+                                }
+                            }
+                        ]
+                    },
+                    "builtins": false
+                }]
+            ],
+
             "plugins": [
                 ["replace-identifiers", {
                     "audioContext"  : "z",
