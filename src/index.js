@@ -15,7 +15,7 @@ for (i=N_CARD;i--;) {
     b.appendChild( b[i] = d.createElement('a') )
 
     // the text is the number and the color, as unicode
-    b[i].innerHTML = (N_CARD/4-(i>>2))+' '+('♠️♦️♣️♥️'[(i%4)*2])
+    b[i].innerHTML = (N_CARD/4-(i>>2))+' '+('\u2660\u2666\u2663\u2665'[i%4])
 
     b[i].setAttribute('style',
 

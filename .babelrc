@@ -19,50 +19,51 @@
                         "memberExpressions" : true,
                         "propertyLiterals"  : true
                     },
-                    "replace":{
-                        "replacements": [
-                            {
-                                "identifierName": "MIC_THREESHOLD",
-                                "replacement": {
-                                    "type"  : "numericLiteral",
-                                    "value" : 0.05
-                                }
-                            },
-                            {
-                                "identifierName": "SCRIPTNODE_BUFFER_SIZE",
-                                "replacement": {
-                                    "type"  : "numericLiteral",
-                                    "value" : 4096
-                                }
-                            },
-                            {
-                                "identifierName": "N_CARD",
-                                "replacement": {
-                                    "type"  : "numericLiteral",
-                                    "value" : 16
-                                }
-                            },
-                            {
-                                "identifierName": "N_CARD_LN",
-                                "replacement": {
-                                    "type"  : "numericLiteral",
-                                    "value" : 5
-                                }
-                            },
-                            {
-                                "identifierName": "PHASE_DURATION",
-                                "replacement": {
-                                    "type"  : "numericLiteral",
-                                    "value" : 15
-                                }
-                            }
-                        ]
-                    },
+                    "replace": false,
                     "builtins": false
                 }]
             ],
 
             "plugins": [
+                ["minify-replace",{
+                    "replacements": [
+                        {
+                            "identifierName": "MIC_THREESHOLD",
+                            "replacement": {
+                                "type"  : "numericLiteral",
+                                "value" : 0.05
+                            }
+                        },
+                        {
+                            "identifierName": "SCRIPTNODE_BUFFER_SIZE",
+                            "replacement": {
+                                "type"  : "numericLiteral",
+                                "value" : 4096
+                            }
+                        },
+                        {
+                            "identifierName": "N_CARD",
+                            "replacement": {
+                                "type"  : "numericLiteral",
+                                "value" : 16
+                            }
+                        },
+                        {
+                            "identifierName": "N_CARD_LN",
+                            "replacement": {
+                                "type"  : "numericLiteral",
+                                "value" : 5
+                            }
+                        },
+                        {
+                            "identifierName": "PHASE_DURATION",
+                            "replacement": {
+                                "type"  : "numericLiteral",
+                                "value" : 15
+                            }
+                        }
+                    ]
+                }],
                 ["replace-identifiers", {
                     "audioContext"  : "z",
                     "scriptNode"    : "y",
