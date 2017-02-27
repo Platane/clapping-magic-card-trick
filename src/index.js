@@ -46,6 +46,8 @@ for (i=N_CARD;i--;) {
 
 // // init some values
 
+// time since the keypress, in cycle
+t =
 
 phase = -1
 
@@ -53,9 +55,6 @@ phase = -1
 cooldown =
 
 x =
-
-// time since the keypress, in cycle
-t =
 
 // time at the first clap
 startDate =
@@ -77,10 +76,14 @@ navigator.getUserMedia(
 
         audioContext.createMediaStreamSource( stream ).connect( scriptNode )
 
+        // before the script node is connected to a desitination, it is un-active
+        // active it
+        // /!\ this behavior is for chrome only, in firefox the onaudioprocess is call even with no destination node
+        scriptNode.connect( audioContext.destination )
 
         scriptNode.onaudioprocess = audioProcessingEvent => {
 
-            if ( t++ > 9 ){
+            if ( t > 0 && t++ > 9 ){
 
                 inputData = audioProcessingEvent.inputBuffer.getChannelData(0)
 
@@ -131,20 +134,17 @@ navigator.getUserMedia(
         }
 
 
-        b.onclick = e => {
-
+        d.onclick = e => {
             // set the training mode flag
             // also double the phase duration
-            if(e.target != b)
+            if(t>0)
                 trainingMode = l = l*2
 
             // position the cards in "deck" mode
             for(i=N_CARD;i--;)
                 b[i].style.transform = 'translate(0,159px)'
 
-            // before the script node is connected to a desitination, it is un-active
-            // active it
-            scriptNode.connect( audioContext.destination )
+            t=1
         }
     },
     ()=>0

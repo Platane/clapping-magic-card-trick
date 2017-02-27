@@ -77,7 +77,7 @@ audio level     |    current sequence     |   delay until next clap check
 ## training mode
 
 
-To practice this trick, you can enter "trainig mode" by clicking on the cards rather than on the green rug.
+To practice this trick, you can enter "trainig mode" by double clicking instead of simple click at the very start, to place the card in deck mode.
 
 ![hint](./screenshot/training.png)
 
