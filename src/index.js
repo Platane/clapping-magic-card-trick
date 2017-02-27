@@ -32,12 +32,12 @@ for (i=N_CARD;i--;) {
         +'transform:rotate('+((N_CARD/2-i)*9)+'deg);'
 
         // styling
-        +'padding:10;'
+        +'padding:9px;'
         +'background:#fff;'
         +'box-shadow:0 0 1px #000;'
         +'border-radius:9px;'
-        +'width:99;'
-        +'height:160;'
+        +'width:99px;'
+        +'height:159px;'
         +'color:'+( i%2 && 'red' )
     )
 }
